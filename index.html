@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced QR recovery systems for asset protection. Secure your valuables with cyber-speed technology.">
+    <meta name="theme-color" content="#10b981">
+    <title>KeyVault | Cyber Asset Defense</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. CORE VARIABLES & RESET --- */
+        :root {
+            /* CYBER GREEN PALETTE */
+            --primary-dark: #022c22;
+            --primary-main: #10b981;
+            --accent-neon: #39ff14;
+            
+            --text-dark: #111111;
+            --text-light: #f5f5f5;
+            --text-muted: #525252;
+            
+            --bg-white: #ffffff;
+            --bg-offwhite: #f0fdf4;
+            
+            /* Formatting */
+            --radius-sm: 2px;
+            --radius-md: 4px;
+            --radius-lg: 8px;
+            --shadow-card: 0 4px 20px -5px rgba(16, 185, 129, 0.15);
+            --container-width: 1200px;
+            
+            /* Typography */
+            --font-head: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- 2. LAYOUT UTILITIES --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding { padding: 80px 0; }
+        .text-center { text-align: center; }
+        .grid { display: grid; gap: 30px; }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-head);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-main);
+            color: white;
+            border-color: var(--primary-main);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:hover { 
+            background-color: var(--accent-neon); 
+            color: var(--primary-dark);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid white;
+            color: white;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+        }
+        .btn-outline:hover { background: white; color: var(--primary-dark); }
+        
+        /* Dark outline variant for light backgrounds */
+        .btn-outline-dark {
+            border: 1px solid var(--primary-dark);
+            color: var(--primary-dark);
+            background: transparent;
+        }
+        .btn-outline-dark:hover { background: var(--primary-dark); color: white; }
+
+        .hidden { display: none !important; }
+        
+        /* Animation */
+        .fade-in { animation: fadeIn 0.5s ease-in forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- 3. NAVIGATION --- */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--primary-main);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            cursor: pointer;
+        }
+        
+        .logo i { color: var(--primary-main); text-shadow: 0 0 5px var(--accent-neon); }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            color: var(--text-dark); 
+            text-transform: uppercase;
+            font-family: var(--font-head);
+            letter-spacing: 1px;
+        }
+        .nav-links a:hover { color: var(--primary-main); text-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+
+        .nav-actions { display: flex; gap: 15px; align-items: center; }
+        .cart-icon { position: relative; cursor: pointer; color: var(--primary-dark); font-size: 1.2rem; transition: transform 0.2s;}
+        .cart-icon:hover { transform: scale(1.1); color: var(--primary-main); }
+        .cart-badge {
+            position: absolute; top: -8px; right: -8px;
+            background: var(--primary-main); color: white;
+            font-size: 0.7rem; width: 18px; height: 18px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;
+            box-shadow: 0 0 5px rgba(16,185,129,0.5);
+        }
+
+        /* --- 4. HERO SECTION --- */
+        #home {
+            position: relative;
+            height: 650px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 4px solid var(--primary-main);
+            background: #000;
+        }
+
+        .bg-video {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 0; opacity: 0.7; pointer-events: none;
+        }
+
+        .bg-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(2, 44, 34, 0.3) 0%, rgba(2, 44, 34, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; }
+
+        .hero-text h1 {
+            font-family: var(--font-head); font-size: 4rem; line-height: 1.1;
+            margin-bottom: 20px; color: #ffffff; text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .hero-text p { 
+            font-size: 1.2rem; color: #e0e0e0; margin-bottom: 30px; 
+            font-weight: 400; text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+        
+        .stats-bar { background: #ffffff; padding: 50px 0; border-top: 1px solid #eee; }
+        .stats-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; 
+            max-width: 1000px; margin: 0 auto; 
+        }
+        .stat-item {
+            background: var(--bg-offwhite); border: 1px solid var(--primary-main);
+            border-radius: 100px; padding: 20px 10px; text-align: center;
+            color: var(--primary-dark); box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        .stat-item:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.15); }
+        .stat-item strong { 
+            display: block; font-size: 1.8rem; color: var(--primary-dark);
+            font-family: var(--font-head); line-height: 1; margin-bottom: 5px;
+        }
+        .stat-item span { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* GALLERY */
+        .product-card {
+            background: white; border-radius: var(--radius-sm); overflow: hidden;
+            box-shadow: var(--shadow-card); transition: all 0.3s; border: 1px solid #eee;
+            position: relative; display: flex; flex-direction: column;
+        }
+        .product-card:hover { 
+            transform: translateY(-5px); border-color: var(--primary-main);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+        }
+        .p-img {
+            height: 200px; background: var(--bg-offwhite); display: flex;
+            align-items: center; justify-content: center; color: var(--primary-main);
+            font-size: 3.5rem; border-bottom: 1px solid #eee;
+        }
+        .p-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .p-info h3 { margin-bottom: 5px; font-family: var(--font-head); font-size: 1.1rem; }
+        .p-price { color: var(--primary-dark); font-weight: 700; font-size: 1.2rem; margin-bottom: 15px; display: block; font-family: monospace;}
+        .p-btn-container { margin-top: auto; }
+
+        /* CUSTOMIZER */
+        .customizer-ui {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+            background: white; padding: 40px; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card); border: 1px solid var(--primary-main);
+        }
+        .preview-area {
+            background: var(--bg-offwhite); border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center;
+            min-height: 400px; position: relative;
+            background-image: radial-gradient(var(--primary-main) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .keychain-mockup {
+            width: 150px; height: 250px; background: #222;
+            border-radius: 75px 75px 20px 20px; position: relative;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: flex-end; padding-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1);
+        }
+        .keychain-ring {
+            width: 60px; height: 60px; border: 6px solid #aaa; border-radius: 50%;
+            position: absolute; top: -40px; background: transparent; z-index: -1;
+        }
+        .qr-placeholder {
+            width: 80px; height: 80px; background: white; margin-bottom: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; color: black;
+        }
+        .engraving-text {
+            color: var(--accent-neon); font-family: var(--font-head);
+            text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;
+            text-shadow: 0 0 5px var(--accent-neon);
+        }
+        .control-group { margin-bottom: 20px; }
+        .control-group label { display: block; font-weight: 600; margin-bottom: 10px; color: var(--primary-dark); font-family: var(--font-head); }
+        .color-options { display: flex; gap: 10px; }
+        .color-swatch { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid #ddd; }
+        .color-swatch.active { border-color: var(--primary-main); transform: scale(1.1); box-shadow: 0 0 10px var(--primary-main); }
+        select, input[type="text"] {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: var(--radius-sm);
+            font-family: var(--font-body); background: #fafafa;
+        }
+        select:focus, input:focus { outline: 2px solid var(--primary-main); border-color: transparent; }
+
+        /* --- CART PAGE STYLES (NEW) --- */
+        .cart-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; align-items: start; }
+        
+        .breadcrumbs { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        .breadcrumbs span { color: var(--primary-main); font-weight: 600; }
+
+        /* Empty State */
+        .empty-cart-state {
+            text-align: center; padding: 60px 0; background: var(--bg-offwhite);
+            border-radius: var(--radius-lg); border: 1px dashed var(--primary-main);
+        }
+
+        /* Cart Items */
+        .cart-item {
+            display: grid; grid-template-columns: 100px 1fr 1fr 50px; gap: 20px;
+            padding: 20px; background: white; border-bottom: 1px solid #eee;
+            align-items: center; position: relative;
+        }
+        .cart-item:first-child { border-top: 1px solid #eee; }
+        
+        .c-img { 
+            width: 100px; height: 100px; background: #eee; border-radius: var(--radius-sm); 
+            display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #aaa;
+        }
+        .c-details h4 { font-family: var(--font-head); font-size: 1rem; color: var(--primary-dark); }
+        .c-meta { font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; }
+        .c-meta span { display: block; }
+        
+        /* Qty Controls */
+        .qty-box { display: flex; align-items: center; border: 1px solid #ddd; width: fit-content; border-radius: var(--radius-sm); }
+        .qty-btn { padding: 5px 12px; cursor: pointer; background: #f9f9f9; user-select: none; }
+        .qty-btn:hover { background: #e0e0e0; }
+        .qty-input { width: 40px; text-align: center; border: none; font-weight: 600; background: white; }
+        
+        .c-price { font-family: monospace; font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); }
+        .remove-btn { color: #aaa; cursor: pointer; transition: 0.2s; }
+        .remove-btn:hover { color: #ef4444; }
+
+        /* Summary Panel */
+        .cart-summary {
+            background: white; padding: 30px; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card); border: 1px solid #eee;
+            position: sticky; top: 120px;
+        }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.95rem; }
+        .summary-row.total { 
+            font-size: 1.2rem; font-weight: 700; font-family: var(--font-head); 
+            border-top: 2px solid var(--primary-main); padding-top: 20px; margin-top: 20px;
+        }
+        .promo-input-group { display: flex; gap: 10px; margin: 20px 0; }
+        
+        .notification {
+            position: fixed; bottom: 30px; right: 30px; background: var(--primary-dark);
+            color: white; padding: 15px 25px; border-radius: var(--radius-md);
+            border-left: 4px solid var(--accent-neon); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 2000; transform: translateY(100px); opacity: 0; transition: all 0.4s;
+        }
+        .notification.show { transform: translateY(0); opacity: 1; }
+
+        /* DASHBOARD & FOOTER */
+        .dashboard-grid { display: grid; grid-template-columns: 250px 1fr; gap: 30px; }
+        .sidebar { background: white; padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); border: 1px solid #eee; }
+        .sidebar li { padding: 15px 10px; border-bottom: 1px solid #f0f0f0; cursor: pointer; color: var(--text-muted); font-weight: 500; }
+        .sidebar li:hover, .sidebar li.active { color: var(--primary-dark); font-weight: 700; border-left: 3px solid var(--primary-main); padding-left: 7px; background: var(--bg-offwhite); }
+        
+        .asset-card {
+            background: white; border-radius: var(--radius-md); padding: 25px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; border: 1px solid #e5e5e5; transition: 0.2s;
+        }
+        .asset-card:hover { border-color: var(--primary-main); }
+        .status-badge { padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; font-family: var(--font-head); }
+        .status-active { background: #dcfce7; color: #166534; border: 1px solid #166534; }
+        .status-lost { background: #fee2e2; color: #991b1b; border: 1px solid #991b1b; }
+
+        footer { background: var(--primary-dark); color: white; padding: 60px 0 20px; border-top: 5px solid var(--primary-main); }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { color: var(--accent-neon); margin-bottom: 20px; font-family: var(--font-head); letter-spacing: 1px; }
+        .footer-col ul li { margin-bottom: 10px; color: #a3a3a3; cursor: pointer; transition: 0.2s; }
+        .footer-col ul li:hover { color: var(--primary-main); padding-left: 5px; }
+
+        /* Mobile & Tablet Responsiveness */
+        @media (max-width: 1024px) {
+            .container { padding: 0 15px; }
+            .section-padding { padding: 60px 0; }
+            .hero-text h1 { font-size: 3rem; }
+            .customizer-ui { gap: 30px; padding: 30px; }
+            .preview-area { min-height: 350px; }
+            .keychain-mockup { width: 120px; height: 200px; }
+            .qr-placeholder { width: 60px; height: 60px; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content, .customizer-ui, .dashboard-grid, .footer-grid, .cart-layout, .cart-item { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .stats-grid { grid-template-columns: 1fr; gap: 20px; }
+            .product-card { max-width: 400px; margin: 0 auto; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-text p { font-size: 1.1rem; }
+            .cart-item { text-align: center; justify-items: center; }
+            .c-img { margin-bottom: 10px; }
+            .cart-summary { position: relative; top: 0; }
+            .btn { padding: 10px 25px; font-size: 0.75rem; }
+            .control-group label { font-size: 0.9rem; }
+            .asset-card { flex-direction: column; text-align: center; gap: 15px; }
+            .grid { gap: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 10px; }
+            .section-padding { padding: 40px 0; }
+            .hero-text h1 { font-size: 2rem; line-height: 1.2; }
+            .hero-text p { font-size: 1rem; }
+            .stats-bar { padding: 40px 0; }
+            .stat-item { padding: 15px 5px; }
+            .stat-item strong { font-size: 1.5rem; }
+            .product-card { max-width: 100%; }
+            .p-info { padding: 15px; }
+            .customizer-ui { padding: 20px; gap: 20px; }
+            .preview-area { min-height: 300px; }
+            .keychain-mockup { width: 100px; height: 170px; }
+            .qr-placeholder { width: 50px; height: 50px; font-size: 1.5rem; }
+            .engraving-text { font-size: 0.7rem; }
+            .cart-item { padding: 15px; gap: 15px; }
+            .c-details h4 { font-size: 0.9rem; }
+            .c-price { font-size: 1rem; }
+            .sidebar { padding: 15px; }
+            .asset-card { padding: 20px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .btn { padding: 8px 20px; font-size: 0.7rem; }
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+            padding: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: background 0.3s;
+        }
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary-dark);
+            transition: 0.3s;
+            border-radius: 1px;
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+                margin-left: 10px;
+            }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                transform: translateX(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 999;
+                border-right: 2px solid var(--primary-main);
+            }
+            .nav-links.show {
+                transform: translateX(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 15px 20px;
+                margin: 10px 0;
+                width: 200px;
+                text-align: center;
+                border-radius: 8px;
+                border: 1px solid var(--primary-main);
+                background: white;
+                transition: all 0.3s;
+            }
+            .nav-links a:hover {
+                background: var(--primary-main);
+                color: white;
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-inner">
+            <div class="logo" onclick="switchPage('home')">
+                <i class="fa-solid fa-key"></i> KeyVault
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="switchPage('home')">Home</a></li>
+                <li><a href="#" onclick="switchPage('gallery')">Gallery</a></li>
+                <li><a href="#" onclick="switchPage('customize')">Customize</a></li>
+                <li><a href="#" onclick="switchPage('assets')">Dashboard</a></li>
+                <li><a href="#" onclick="switchPage('security')">Security</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="Login.html"><i class="fa-solid fa-user-astronaut"></i></a>
+                <div class="cart-icon" onclick="switchPage('cart')">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-badge" id="cart-count">0</span>
+                </div>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content">
+
+        <section id="home-page" class="fade-in">
+            <div id="home">
+                <video class="bg-video" autoplay muted loop playsinline>
+                    <source src="Whisk_imn3cto2itzjjwnz0imkjtytqwmirtlycjyw0co.mp4" type="video/mp4">
+                </video>
+                <div class="bg-overlay"></div>
+                <div class="container hero-content">
+                    <div class="hero-text">
+                        <div style="color: var(--accent-neon); font-weight: 700; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; font-family: var(--font-head); text-shadow: 0 0 10px rgba(0,0,0,0.8);">Next Gen Protection</div>
+                        <h1>Secure Your Assets <br>With <span style="color: var(--primary-main);">Cyber</span> Speed.</h1>
+                        <p>Advanced QR recovery systems for the modern age. Encrypted, instant, and borderless protection.</p>
+                        <div style="display: flex; gap: 20px; justify-content: center;">
+                            <button class="btn btn-primary" onclick="switchPage('customize')">Deploy Tag</button>
+                            <button class="btn btn-outline" onclick="switchPage('gallery')">View Specs</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="container stats-grid">
+                    <div class="stat-item"><strong>15,000+</strong><span>Nodes Active</span></div>
+                    <div class="stat-item"><strong>99.9%</strong><span>Recovery Rate</span></div>
+                    <div class="stat-item"><strong>AES-256</strong><span>Encryption</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery-page" class="container section-padding hidden fade-in">
+            <h2 style="margin-bottom: 30px; font-family: var(--font-head); text-transform: uppercase; border-left: 5px solid var(--primary-main); padding-left: 15px;">Hardware Inventory</h2>
+            
+            <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+                <div class="product-card">
+                    <div class="p-img"><i class="fa-solid fa-link"></i></div>
+                    <div class="p-info">
+                        <h3>Classic Leather Loop</h3>
+                        <span class="p-price">₹1,299</span>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">Organic texture with cyber-steel clasp.</p>
+                        <div class="p-btn-container">
+                            <button class="btn btn-outline-dark" style="width: 100%" onclick="addToCart({id: 'gl-001', name: 'Classic Leather Loop', price: 1299, imageIcon: 'fa-link', variant: 'Standard'})">Add System</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="p-img"><i class="fa-solid fa-layer-group"></i></div>
+                    <div class="p-info">
+                        <h3>Carbon Fiber Stealth</h3>
+                        <span class="p-price">₹1,899</span>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">Radar-absorbent material finish.</p>
+                        <div class="p-btn-container">
+                            <button class="btn btn-outline-dark" style="width: 100%" onclick="addToCart({id: 'gl-002', name: 'Carbon Fiber Stealth', price: 1899, imageIcon: 'fa-layer-group', variant: 'Matte'})">Add System</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="p-img"><i class="fa-regular fa-gem"></i></div>
+                    <div class="p-info">
+                        <h3>Platinum Exec</h3>
+                        <span class="p-price">₹3,499</span>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">High-polish alloy for premium sectors.</p>
+                        <div class="p-btn-container">
+                            <button class="btn btn-outline-dark" style="width: 100%" onclick="addToCart({id: 'gl-003', name: 'Platinum Exec', price: 3499, imageIcon: 'fa-gem', variant: 'Polished'})">Add System</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="customize-page" class="container section-padding hidden fade-in">
+            <h2 style="margin-bottom: 10px; font-family: var(--font-head);">Configure Device</h2>
+            <p style="margin-bottom: 40px; color: var(--text-muted);">Initialize your custom protection protocol.</p>
+
+            <div class="customizer-ui">
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Chassis Material</label>
+                        <select id="model-select" onchange="updatePreview()">
+                            <option value="leather" data-name="Classic Leather" data-price="1299">Classic Leather</option>
+                            <option value="carbon" data-name="Carbon Fiber" data-price="1899">Carbon Fiber</option>
+                            <option value="gold" data-name="Platinum Alloy" data-price="3499">Platinum Alloy</option>
+                            <option value="silicone" data-name="Tactical Silicone" data-price="999">Tactical Silicone</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Finish Color</label>
+                        <div class="color-options">
+                            <div class="color-swatch active" style="background: #111;" data-color="Black" onclick="setColor('#111', 'Black', this)"></div>
+                            <div class="color-swatch" style="background: #10b981;" data-color="Cyber Green" onclick="setColor('#10b981', 'Cyber Green', this)"></div>
+                            <div class="color-swatch" style="background: #022c22;" data-color="Deep Ops" onclick="setColor('#022c22', 'Deep Ops', this)"></div>
+                            <div class="color-swatch" style="background: #e5e5e5;" data-color="White" onclick="setColor('#e5e5e5', 'White', this)"></div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Laser Engraving (ID)</label>
+                        <input type="text" id="engrave-input" maxlength="3" placeholder="INITIALS" onkeyup="updatePreview()">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Matrix Style (QR)</label>
+                        <select id="qr-style" onchange="updatePreview()">
+                            <option value="classic">Standard Data Block</option>
+                            <option value="dot">Binary Dots</option>
+                            <option value="art">Cyber Glitch</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                            <span style="font-size: 1.2rem; font-weight: 600; font-family: var(--font-head);">ESTIMATED COST</span>
+                            <span style="font-size: 1.2rem; font-weight: 600; color: var(--primary-dark);" id="price-display">₹1,299</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%" onclick="addCustomToCart()">INITIATE BUILD</button>
+                    </div>
+                </div>
+
+                <div class="preview-area">
+                    <div class="keychain-ring"></div>
+                    <div class="keychain-mockup" id="mockup">
+                        <div class="qr-placeholder" id="qr-mock">
+                            <i class="fa-solid fa-qrcode"></i>
+                        </div>
+                        <div class="engraving-text" id="engrave-text"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cart-page" class="container section-padding hidden fade-in">
+            <div class="breadcrumbs">
+                Home > <span>Your Cart</span>
+            </div>
+            <h2 style="font-family: var(--font-head); margin-bottom: 30px;">System Requisition</h2>
+
+            <div class="cart-layout">
+                <div id="cart-items-container">
+                    </div>
+
+                <div class="cart-summary-panel">
+                    <div class="cart-summary">
+                        <h3 style="font-family: var(--font-head); margin-bottom: 20px; font-size: 1.1rem;">Order Summary</h3>
+                        
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="summary-subtotal">₹0</span>
+                        </div>
+                        <div class="summary-row" id="discount-row" style="color: var(--primary-main); display: none;">
+                            <span>Discount (Promo)</span>
+                            <span id="summary-discount">-₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="summary-shipping">--</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax (Estimated 18%)</span>
+                            <span id="summary-tax">₹0</span>
+                        </div>
+
+                        <div class="promo-input-group">
+                            <input type="text" id="promo-code" placeholder="Enter Promo Code">
+                            <button class="btn btn-outline-dark" onclick="applyPromo()">Apply</button>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 5px;">Shipping Method:</label>
+                            <select id="shipping-method" onchange="renderCartSummary()">
+                                <option value="standard">Standard (5-7 Days) - ₹99</option>
+                                <option value="express">Express (2 Days) - ₹299</option>
+                                <option value="drone">Drone Drop (4 Hours) - ₹999</option>
+                            </select>
+                            <p style="font-size: 0.75rem; color: var(--primary-main); margin-top: 5px;">*Free Standard Shipping on orders over ₹5,000</p>
+                        </div>
+
+                        <div class="summary-row total">
+                            <span>TOTAL</span>
+                            <span id="summary-total">₹0</span>
+                        </div>
+
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px; font-size: 1rem;" onclick="checkout()">
+                            PROCEED TO CHECKOUT <i class="fa-solid fa-arrow-right" style="margin-left: 10px;"></i>
+                        </button>
+                        
+                        <div style="margin-top: 20px; text-align: center; font-size: 0.8rem; color: #aaa;">
+                            <i class="fa-solid fa-lock"></i> 256-bit Secure SSL Connection
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="assets-page" class="container section-padding hidden fade-in">
+            <h2 style="margin-bottom: 30px; font-family: var(--font-head);">Mainframe / Dashboard</h2>
+            <div class="dashboard-grid">
+                <ul class="sidebar">
+                    <li class="active">Live Status</li>
+                    <li>Register Node</li>
+                    <li>Profile Config</li>
+                </ul>
+                <div>
+                    <div id="dashboard-assets-container">
+                    </div>
+                            <div>
+                                <h4 style="margin-bottom: 5px; font-family: var(--font-head);">Vehicle Access Key</h4>
+                                <p style="font-size: 0.8rem; color: var(--text-muted);">UID: KV-8892-X | Ping: Secure</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="status-badge status-active">SECURE</span>
+                        </div>
+                    </div>
+                    <div class="asset-card">
+                        <div style="display: flex; gap: 20px; align-items: center;">
+                            <div style="width: 50px; height: 50px; background: #fff0f0; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #991b1b;">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin-bottom: 5px; font-family: var(--font-head);">Tactical Briefcase</h4>
+                                <p style="font-size: 0.8rem; color: var(--text-muted);">UID: KV-9921-A | Ping: <span style="color:red;">INTERRUPTED</span></p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="status-badge status-lost">MISSING</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="security-page" class="container section-padding hidden fade-in">
+            <div class="text-center" style="max-width: 800px; margin: 0 auto;">
+                <h2 style="font-family: var(--font-head); font-size: 2.5rem; margin-bottom: 20px;">Military-Grade Encryption</h2>
+                <p style="margin-bottom: 60px; color: var(--text-muted);">We utilize distributed ledger principles and AES-256 encryption.</p>
+            </div>
+
+            <div class="grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div style="padding: 40px; background: var(--bg-offwhite); border: 1px solid var(--primary-main); border-radius: var(--radius-md);">
+                    <i class="fa-solid fa-user-secret" style="font-size: 2.5rem; color: var(--primary-dark); margin-bottom: 20px;"></i>
+                    <h3 style="font-family: var(--font-head);">Zero-Knowledge Protocol</h3>
+                    <p style="color: var(--text-muted);">Finder nodes communicate via our proxy relay. Your personal coordinates are never exposed.</p>
+                </div>
+                <div style="padding: 40px; background: var(--bg-offwhite); border: 1px solid var(--primary-main); border-radius: var(--radius-md);">
+                    <i class="fa-solid fa-server" style="font-size: 2.5rem; color: var(--primary-dark); margin-bottom: 20px;"></i>
+                    <h3 style="font-family: var(--font-head);">Offline Redundancy</h3>
+                    <p style="color: var(--text-muted);">Even if the primary grid fails, our physical recovery protocols ensure a 24/7 retrieval.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>KEYVAULT SYSTEMS</h4>
+                    <p style="color: #ccc; font-size: 0.9rem;">Securing the future.<br>One asset at a time.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>MODULES</h4>
+                    <ul>
+                        <li onclick="switchPage('gallery')">Browse Hardware</li>
+                        <li onclick="switchPage('customize')">Custom Build</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>UPLINK</h4>
+                    <ul>
+                        <li>Knowledge Base</li>
+                        <li>Logistics</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>CONTACT</h4>
+                    <ul>
+                        <li>admin@keyvault.sys</li>
+                        <li>1-800-CYBER-SEC</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center; color: #888; font-size: 0.8rem;">
+                &copy; 2026 KeyVault Systems. All rights reserved. | Protocol v2.4
+            </div>
+        </div>
+    </footer>
+
+    <div id="notification" class="notification">Item Added to System</div>
+
+    <script>
+        // --- 1. STATE MANAGEMENT ---
+        // Load cart from localStorage or initialize empty array
+        let cart = JSON.parse(localStorage.getItem('keyvault_cart')) || [];
+        let appliedPromo = null; // Store active promo code
+        
+        // --- 2. PAGE ROUTING ---
+        function switchPage(pageId) {
+            const pages = ['home-page', 'gallery-page', 'customize-page', 'assets-page', 'security-page','cart-page'];
+            pages.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.add('hidden');
+            });
+
+            const selected = document.getElementById(pageId + '-page');
+            if(selected) {
+                selected.classList.remove('hidden');
+                selected.classList.remove('fade-in'); 
+                void selected.offsetWidth; // Trigger reflow
+                selected.classList.add('fade-in');
+                window.scrollTo(0, 0);
+                
+                // If opening cart, render it
+                if(pageId === 'cart') {
+                    renderCartItems();
+                    renderCartSummary();
+                }
+            }
+        }
+
+        // --- 3. CORE CART LOGIC ---
+        function saveCart() {
+            localStorage.setItem('keyvault_cart', JSON.stringify(cart));
+            updateCartCounter();
+            renderCartSummary(); // Always recalculate totals
+        }
+
+        function updateCartCounter() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            const badge = document.getElementById('cart-count');
+            badge.innerText = count;
+            
+            // Animation for badge
+            badge.style.transform = "scale(1.5)";
+            setTimeout(() => badge.style.transform = "scale(1)", 200);
+        }
+
+        function addToCart(product) {
+            const existing = cart.find(item => item.id === product.id && item.variant === product.variant);
+            
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            saveCart();
+            showNotification(`System Loaded: ${product.name}`);
+        }
+
+        function removeFromCart(index) {
+            const item = cart[index];
+            if(confirm(`Remove ${item.name} from requisition list?`)) {
+                cart.splice(index, 1);
+                saveCart();
+                renderCartItems(); // Re-render list
+            }
+        }
+
+        function updateQuantity(index, change) {
+            if (cart[index].quantity + change > 0 && cart[index].quantity + change < 100) {
+                cart[index].quantity += change;
+                saveCart();
+                renderCartItems(); // Re-render to update input value
+            }
+        }
+
+        // --- 4. CART RENDERING ---
+        function renderCartItems() {
+            const container = document.getElementById('cart-items-container');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart-state">
+                        <i class="fa-solid fa-box-open" style="font-size: 3rem; color: #ccc; margin-bottom: 20px;"></i>
+                        <h3>System Empty</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">No hardware protocols selected.</p>
+                        <button class="btn btn-primary" onclick="switchPage('gallery')">Browse Hardware</button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            cart.forEach((item, index) => {
+                html += `
+                    <div class="cart-item fade-in">
+                        <div class="c-img">
+                            <i class="fa-solid ${item.imageIcon || 'fa-microchip'}"></i>
+                        </div>
+                        <div class="c-details">
+                            <h4>${item.name}</h4>
+                            <div class="c-meta">
+                                <span>Spec: ${item.variant}</span>
+                                <span>ID: KV-${Math.floor(Math.random() * 9000) + 1000}</span>
+                            </div>
+                        </div>
+                        <div class="qty-box">
+                            <div class="qty-btn" onclick="updateQuantity(${index}, -1)">-</div>
+                            <input type="text" class="qty-input" value="${item.quantity}" readonly>
+                            <div class="qty-btn" onclick="updateQuantity(${index}, 1)">+</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="c-price">₹${(item.price * item.quantity).toLocaleString()}</div>
+                            <div class="remove-btn" onclick="removeFromCart(${index})">
+                                <i class="fa-solid fa-trash"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderCartSummary() {
+            // 1. Calculate Subtotal
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // 2. Shipping Logic
+            const shipMethod = document.getElementById('shipping-method').value;
+            let shippingCost = 0;
+            if(shipMethod === 'standard') shippingCost = 99;
+            if(shipMethod === 'express') shippingCost = 299;
+            if(shipMethod === 'drone') shippingCost = 999;
+            
+            // Free shipping threshold
+            if (subtotal > 5000 && shipMethod === 'standard') {
+                shippingCost = 0;
+            }
+
+            // 3. Discount Logic
+            let discount = 0;
+            if (appliedPromo === 'CYBER2026') {
+                discount = subtotal * 0.10; // 10% off
+                document.getElementById('discount-row').style.display = 'flex';
+                document.getElementById('discount-row').children[1].innerText = `-₹${Math.floor(discount).toLocaleString()}`;
+            } else {
+                document.getElementById('discount-row').style.display = 'none';
+            }
+
+            // 4. Tax (Estimated 18% GST)
+            const taxableAmount = subtotal - discount;
+            const tax = taxableAmount * 0.18;
+
+            // 5. Total
+            const total = taxableAmount + tax + shippingCost;
+
+            // Update UI
+            document.getElementById('summary-subtotal').innerText = `₹${subtotal.toLocaleString()}`;
+            document.getElementById('summary-shipping').innerText = shippingCost === 0 ? 'FREE' : `₹${shippingCost}`;
+            document.getElementById('summary-tax').innerText = `₹${Math.floor(tax).toLocaleString()}`;
+            document.getElementById('summary-total').innerText = `₹${Math.floor(total).toLocaleString()}`;
+        }
+
+        // --- 5. CUSTOMIZER LOGIC CONNECTED TO CART ---
+        let currentCustomColor = 'Black';
+        let currentCustomColorHex = '#111';
+
+        function setColor(hex, name, element) {
+            currentCustomColor = name;
+            currentCustomColorHex = hex;
+            document.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const mockup = document.getElementById('mockup');
+            const engraveInput = document.getElementById('engrave-input');
+            const engraveText = document.getElementById('engrave-text');
+            const modelSelect = document.getElementById('model-select');
+            const qrStyle = document.getElementById('qr-style');
+            const priceDisplay = document.getElementById('price-display');
+
+            // Visual Updates
+            mockup.style.backgroundColor = currentCustomColorHex;
+            engraveText.innerText = engraveInput.value;
+            
+            // Price Update
+            const selectedOption = modelSelect.options[modelSelect.selectedIndex];
+            const price = parseInt(selectedOption.getAttribute('data-price'));
+            priceDisplay.innerText = '₹' + price.toLocaleString();
+
+            // QR Visual
+            const qrMock = document.getElementById('qr-mock');
+            qrMock.style.background = 'white';
+            qrMock.style.color = 'black';
+            if(qrStyle.value === 'dot') {
+                qrMock.style.borderRadius = '50%';
+            } else if (qrStyle.value === 'art') {
+                qrMock.style.background = 'linear-gradient(45deg, #022c22 0%, #10b981 100%)';
+                qrMock.style.color = 'white';
+                qrMock.style.borderRadius = '0';
+            } else {
+                qrMock.style.borderRadius = '0';
+            }
+        }
+
+        function addCustomToCart() {
+            const modelSelect = document.getElementById('model-select');
+            const selectedOption = modelSelect.options[modelSelect.selectedIndex];
+            const engraveText = document.getElementById('engrave-input').value || "NO-ID";
+            const qrStyle = document.getElementById('qr-style').value;
+            
+            const customProduct = {
+                id: 'custom-' + Date.now(),
+                name: `${selectedOption.getAttribute('data-name')} (Custom)`,
+                price: parseInt(selectedOption.getAttribute('data-price')),
+                imageIcon: 'fa-fingerprint',
+                variant: `${currentCustomColor} | Engraving: ${engraveText.toUpperCase()} | QR: ${qrStyle}`,
+                quantity: 1
+            };
+            
+            cart.push(customProduct);
+            saveCart();
+            showNotification('Custom Build Added to Cart');
+        }
+
+        // --- 6. UTILITIES ---
+        function applyPromo() {
+            const code = document.getElementById('promo-code').value.trim().toUpperCase();
+            if (code === 'CYBER2026') {
+                appliedPromo = code;
+                showNotification('Promo Code Applied: 10% OFF');
+                renderCartSummary();
+            } else {
+                alert('Invalid Access Code');
+            }
+        }
+
+        function checkout() {
+            if(cart.length === 0) {
+                alert("System Empty. Please add hardware.");
+                return;
+            }
+            const total = document.getElementById('summary-total').innerText;
+            alert(`Initiating secure transfer of ${total}. Redirecting to Payment Gateway...`);
+        }
+
+        function showNotification(msg) {
+            const notif = document.getElementById('notification');
+            notif.innerText = msg;
+            notif.classList.add('show');
+            setTimeout(() => {
+                notif.classList.remove('show');
+            }, 3000);
+        }
+
+        // --- 7. MOBILE MENU FUNCTION ---
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('show');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+                navLinks.classList.remove('show');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // --- 8. INITIALIZATION ---
+        window.onload = function() {
+            updateCartCounter();
+            updatePreview(); // Initialize customizer defaults
+        };
+
+        async function loadDashboard() {
+    const container = document.getElementById('dashboard-assets-container');
+    container.innerHTML = '<div style="color:#aaa; text-align:center;">Decrypting Data Streams...</div>';
+
+    try {
+        // --- THE CHANGE IS HERE: We now talk to your real server ---
+        const response = await fetch('http://localhost:3000/api/my-assets?email=admin@keyvault.sys');
+        const assets = await response.json();
+
+        container.innerHTML = ''; // Clear loading text
+
+        if(assets.length === 0) {
+            container.innerHTML = '<div style="text-align:center">No active nodes found.</div>';
+            return;
+        }
+
+        assets.forEach(asset => {
+            // Parse messages from the database
+            let messages = asset.messages;
+            if (typeof messages === 'string') messages = JSON.parse(messages);
+            if (!messages) messages = [];
+
+            const hasMessage = messages.length > 0;
+            const latestMsg = hasMessage ? messages[0] : null;
+
+            // Styling Logic
+            let badgeClass = asset.status === 'SECURE' ? 'status-active' : 'status-lost';
+            // Use 'vehicle' check safely
+            let icon = (asset.tag_name && asset.tag_name.toLowerCase().includes('vehicle')) ? 'fa-car' : 'fa-briefcase';
+            
+            let cardStyle = hasMessage 
+                ? 'border: 1px solid var(--accent-neon); box-shadow: 0 0 15px rgba(57,255,20,0.15);' 
+                : '';
+
+            let html = `
+                <div class="asset-card fade-in" style="${cardStyle}">
+                    <div style="display: flex; gap: 20px; align-items: flex-start;">
+                        <div style="min-width: 50px; height: 50px; background: var(--bg-offwhite); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: var(--primary-dark);">
+                            <i class="fa-solid ${icon}"></i>
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <h4 style="margin-bottom: 5px; font-family: var(--font-head);">${asset.tag_name}</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">UID: ${asset.qr_id}</p>
+                            
+                            ${hasMessage ? `
+                                <div style="background: #f0fdf4; padding: 12px; border-left: 3px solid var(--accent-neon); border-radius: 4px; font-size: 0.85rem;">
+                                    <div style="color: var(--primary-dark); font-weight: 700; margin-bottom: 4px;">
+                                        <i class="fa-regular fa-envelope"></i> New Intel:
+                                    </div>
+                                    <p style="color: #333; margin-bottom: 5px;">"${latestMsg.finder_msg}"</p>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);">
+                                        <strong>Contact:</strong> ${latestMsg.finder_contact}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div style="align-self: flex-start;">
+                        <span class="status-badge ${badgeClass}">${asset.status}</span>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += html;
+        });
+
+    } catch (error) {
+        console.error(error);
+        container.innerHTML = `<div style="color:red; text-align:center">Connection to Mainframe Failed.<br>Ensure Server is Running.</div>`;
+    }
+}
+
+// 4. Hook this into your existing switchPage function
+// Find your existing switchPage function and add this check at the end:
+const oldSwitchPage = switchPage;
+switchPage = function(pageId) {
+    oldSwitchPage(pageId); // Run the normal page switching
+    if (pageId === 'assets') {
+        loadDashboard(); // Run our simulation
+    }
+}
+
+    </script>
+</body>
+</html>
