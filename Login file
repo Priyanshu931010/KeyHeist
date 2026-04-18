@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vault Access | KeyVault </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Palette */
+            --bg-deep: #0f1014;
+            --bg-panel: #18191f;
+            --accent-primary: #00ff15a9; /* Cyber Cyan */
+            --accent-glow: rgba(0, 255, 64, 0.466);
+            --accent-success: #00ff40a2;
+            --text-main: #e0e6ed;
+            --text-muted: #6b7280;
+            --border-color: #2d3038;
+            
+            /* Motion */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Chakra Petch', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            /* subtle grid background pattern */
+            background-image: 
+                linear-gradient(var(--bg-panel) 1px, transparent 1px),
+                linear-gradient(90deg, var(--bg-panel) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* --- Main Container --- */
+        .vault-wrapper {
+            position: relative;
+            width: 360px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Slight float animation */
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- The Shackle (Top Part) --- */
+        .shackle-container {
+            width: 180px;
+            height: 120px;
+            z-index: 1; /* Behind the body slightly */
+            position: relative;
+            top: 40px; /* Tuck into body */
+            transition: transform 0.8s var(--ease-elastic);
+            transform-origin: 85% 100%; /* Pivot point for opening */
+        }
+
+        .shackle-svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #4a4e5a;
+            stroke-width: 20;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.5s ease;
+        }
+
+        /* --- The Lock Body (Bottom Part / Form) --- */
+        .lock-body {
+            position: relative;
+            width: 100%;
+            background: var(--bg-panel);
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem;
+            z-index: 10;
+            box-shadow: 
+                0 20px 50px rgba(0,0,0,0.5),
+                0 0 0 1px rgba(255,255,255,0.05) inset;
+            transition: all 0.5s var(--ease-smooth);
+            overflow: hidden;
+        }
+
+        /* Decorative "Keyhole" or Scanner at top of body */
+        .scanner-bar {
+            width: 40%;
+            height: 4px;
+            background: var(--border-color);
+            margin: 0 auto 2rem auto;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scanner-light {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 100%;
+            background: var(--accent-primary);
+            transform: translateX(-100%);
+            animation: scan 3s infinite;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        @keyframes scan {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        /* --- Forms --- */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        h2 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            color: var(--accent-primary);
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        button.action-btn {
+            background: var(--accent-primary);
+            color: #000;
+            font-weight: 700;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        button.action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px var(--accent-glow);
+        }
+
+        /* Toggle Link */
+        .switch-form {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+
+        .switch-form span {
+            color: var(--accent-primary);
+            text-decoration: underline;
+        }
+
+        /* --- Success/Unlocked State UI --- */
+        .success-message {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-panel);
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9);
+            transition: all 0.5s var(--ease-elastic);
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            color: var(--accent-success);
+            margin-bottom: 1rem;
+        }
+
+        /* --- UNLOCKED CLASSES (triggered by JS) --- */
+        .vault-wrapper.unlocked .shackle-container {
+            /* Move up and rotate open */
+            transform: translateY(-60px) rotateY(180deg); 
+        }
+
+        .vault-wrapper.unlocked .shackle-svg {
+            stroke: var(--accent-success); /* Turn green */
+            filter: drop-shadow(0 0 8px rgba(0,255,157,0.5));
+        }
+
+        .vault-wrapper.unlocked .lock-body {
+            border-color: var(--accent-success);
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.2);
+        }
+
+        .vault-wrapper.unlocked .form-container {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        .vault-wrapper.unlocked .success-message {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .vault-wrapper.unlocked .scanner-light {
+            background: var(--accent-success);
+            animation-duration: 0.5s; /* Scan faster on success */
+        }
+        
+        /* Utility to hide/show forms */
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    
+    <a href="index.html" style="position: absolute; top: 20px; left: 20px; color: #6b7280; text-decoration: none; font-family: 'Chakra Petch', sans-serif; font-size: 0.9rem; z-index: 100; display: flex; align-items: center; gap: 8px; transition: color 0.3s;">
+    <span>&#8592;</span> Return to KeyVault
+    </a>
+<style>
+    a:hover { color: #00f0ff !important; }
+</style>
+    <div class="vault-wrapper" id="vault">
+        
+        <div class="shackle-container">
+            <svg class="shackle-svg" viewBox="0 0 100 100">
+                <path d="M 20 100 L 20 40 A 30 30 0 0 1 80 40 L 80 100" />
+            </svg>
+        </div>
+
+        <div class="lock-body">
+            
+            <div class="scanner-bar"><div class="scanner-light"></div></div>
+
+            <div class="form-container" id="loginForm">
+                <h2>System Access</h2>
+                <div class="input-group">
+                    <input type="email" placeholder="USER_ID // Email">
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="PASS_KEY // Password">
+                </div>
+                <button class="action-btn" onclick="unlockVault()">Authenticate</button>
+                <div class="switch-form" onclick="toggleForms()">
+                    New user? <span>Initialize Registry</span>
+                </div>
+            </div>
+
+            <div class="form-container hidden" id="registerForm">
+                <h2>New Registry</h2>
+                <div class="input-group">
+                    <input type="text" placeholder="ID_TAG // Username">
+                </div>
+                <div class="input-group">
+                    <input type="email" placeholder="CONTACT // Email">
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="SET_KEY // Password">
+                </div>
+                <button class="action-btn" onclick="unlockVault()">Register & Unlock</button>
+                <div class="switch-form" onclick="toggleForms()">
+                    Already registered? <span>Access Login</span>
+                </div>
+            </div>
+
+            <div class="success-message">
+                <div class="success-icon">🔓</div>
+                <h2 style="color: var(--accent-success)">ACCESS GRANTED</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top:10px;">Redirecting stream...</p>
+                <button class="action-btn" style="background:transparent; border: 1px solid var(--border-color); color: var(--text-muted); margin-top:20px;" onclick="resetVault()">Lock System</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const vault = document.getElementById('vault');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        // Toggle between Login and Register views
+        function toggleForms() {
+            if (loginForm.classList.contains('hidden')) {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+            }
+        }
+
+        // Trigger the Unlock Animation
+        function unlockVault() {
+            // Simulate processing delay for realism
+            const btn = document.querySelector('.form-container:not(.hidden) .action-btn');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "VERIFYING...";
+            btn.style.opacity = "0.7";
+            
+            setTimeout(() => {
+    vault.classList.add('unlocked');
+    
+    // REDIRECT AFTER 2 SECONDS (Wait for animation to finish)
+    setTimeout(() => {
+        window.location.href = "index.html"; 
+         }, 2500);
+           }, 800);
+    }
+
+        // Reset to locked state (for demonstration)
+        function resetVault() {
+            vault.classList.remove('unlocked');
+        }
+    </script>
+</body>
+</html>
