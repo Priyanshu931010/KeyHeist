@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEYHEIST | Asset Recovery Protocol</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CORE AESTHETICS --- */
+        :root {
+            --bg-void: #050505;
+            --bg-panel: #111111;
+            --accent-signal: #eaff00; /* Acid Yellow */
+            --accent-alert: #ff3333;  /* Industrial Red */
+            --text-main: #e0e0e0;
+            --text-muted: #666666;
+            --grid-line: rgba(255, 255, 255, 0.07);
+            
+            --font-display: 'Archivo Black', sans-serif;
+            --font-tech: 'Chakra Petch', sans-serif;
+            
+            --ease-snap: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            font-family: var(--font-tech);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- ATMOSPHERE & BACKGROUND --- */
+        /* CSS-only technical grid background */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+
+        /* Ambient glow */
+        .ambient-glow {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 80vw; height: 80vw;
+            background: radial-gradient(circle, rgba(234, 255, 0, 0.03) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* --- LAYOUT & CONTAINER --- */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- TYPOGRAPHY & HEADER --- */
+        .brand-header {
+            margin-bottom: 3rem;
+            border-bottom: 2px solid var(--text-muted);
+            padding-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            opacity: 0;
+            animation: slideDown 0.8s var(--ease-snap) forwards;
+        }
+
+        .brand-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            line-height: 0.9;
+            letter-spacing: -2px;
+            color: var(--text-main);
+        }
+
+        .brand-title span { color: var(--accent-signal); }
+
+        .brand-status {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        /* --- INTERACTIVE CARDS --- */
+        .card {
+            background: var(--bg-panel);
+            border: 1px solid #333;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            display: none; /* Hidden by default, toggled by JS */
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .card.active {
+            display: block;
+            animation: cardReveal 0.6s var(--ease-snap) 0.2s forwards;
+        }
+
+        /* Aesthetic decorative corner markers */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--accent-signal);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s var(--ease-snap);
+        }
+        .card:hover::before { transform: scaleX(1); }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            border: 1px solid currentColor;
+        }
+
+        .status-unregistered { color: var(--accent-signal); box-shadow: 0 0 10px rgba(234,255,0,0.2); }
+        .status-registered { color: var(--accent-alert); box-shadow: 0 0 10px rgba(255,42,42,0.2); }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #aaa;
+        }
+
+        /* --- FORMS & INPUTS --- */
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        input, textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #333;
+            color: var(--text-main);
+            font-family: var(--font-tech);
+            font-size: 1.1rem;
+            padding: 0.5rem 0;
+            transition: all 0.3s;
+            border-radius: 0;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-bottom-color: var(--accent-signal);
+            background: rgba(255,255,255,0.02);
+            padding-left: 10px;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-action {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--text-main);
+            color: var(--bg-void);
+            font-family: var(--font-tech);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            background: var(--accent-signal);
+        }
+
+        .btn-action:active { transform: translateY(1px); }
+
+        /* --- DEV TOOLS (To Simulate QR Scans) --- */
+        .dev-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .dev-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 8px 12px;
+            font-size: 10px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            font-family: monospace;
+        }
+        .dev-btn:hover { background: rgba(255,255,255,0.2); }
+
+        /* --- ANIMATIONS --- */
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes cardReveal {
+            from { transform: translateY(40px) scale(0.95); opacity: 0; filter: blur(5px); }
+            to { transform: translateY(0) scale(1); opacity: 1; filter: blur(0); }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 600px) {
+            .brand-title { font-size: 2rem; }
+            .container { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+    <div class="ambient-glow"></div>
+
+    <div class="container">
+        <header class="brand-header">
+            <h1 class="brand-title">Key<span>Heist</span></h1>
+            <div class="brand-status">Sys.Online</div>
+        </header>
+
+        <div id="view-unregistered" class="card">
+            <div class="status-badge status-unregistered">● Unlinked Hardware</div>
+            <h2>Claim This Tag</h2>
+            <p>This KeyHeist SecureTag™ is currently inactive. Register it now to activate the recovery protocol.</p>
+            
+            <form onsubmit="event.preventDefault(); alert('Simulated Registration Complete');">
+                <div class="input-group">
+                    <label>Set Tag Name</label>
+                    <input type="text" placeholder="e.g. Office Keys" required>
+                </div>
+                <div class="input-group">
+                    <label>Recovery Email</label>
+                    <input type="email" placeholder="you@domain.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Secure PIN (4-Digits)</label>
+                    <input type="password" maxlength="4" placeholder="****" required>
+                </div>
+                <button class="btn-action">Initialize Protocol</button>
+            </form>
+        </div>
+
+        <div id="view-registered" class="card">
+            <div class="status-badge status-registered">● Asset Reported Missing</div>
+            <h2>Contact Owner</h2>
+            <p>You found a registered secure asset. The owner has been notified of the scan location. Please leave a message.</p>
+            
+            <div style="margin-bottom: 2rem; border-left: 2px solid var(--accent-alert); padding-left: 1rem;">
+                <label>Asset ID</label>
+                <div style="font-size: 1.5rem; font-family: monospace; letter-spacing: 2px;">KV-9921-A</div>
+            </div>
+
+            <form onsubmit="handleAlert(event)">
+            <div class="input-group">
+               <label>Your Contact (Optional)</label>
+                <input type="text" id="find-contact" placeholder="Phone or Email">
+             </div>
+    <div class="input-group">
+        <label>Message</label>
+        <textarea id="find-msg" rows="3" placeholder="I left them at the front desk..."></textarea>
+    </div>
+    <button class="btn-action" style="background: var(--accent-alert); color: white;">Alert Owner</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="dev-controls">
+        <button class="dev-btn" onclick="setView('unregistered')">SIMULATE: NEW TAG</button>
+        <button class="dev-btn" onclick="setView('registered')">SIMULATE: LOST TAG</button>
+    </div>
+
+    <script>
+    // --- CONFIGURATION ---
+    const API_URL = 'http://localhost:3000/api'; // Change this when you deploy
+    let currentTagId = null;
+
+    // --- INITIALIZATION ---
+    window.addEventListener('DOMContentLoaded', async () => {
+        // 1. Get Tag ID from URL (e.g., keyheist.com/?id=KH-001-A)
+        const urlParams = new URLSearchParams(window.location.search);
+        currentTagId = urlParams.get('id');
+
+        if (!currentTagId) {
+            alert("No Tag ID detected. Scan a valid KeyHeist QR code.");
+            return;
+        }
+
+        // Display ID on UI
+        document.querySelectorAll('.tag-id-display').forEach(el => el.innerText = currentTagId);
+
+        // 2. Check Status with Server
+        try {
+            const response = await fetch(`${API_URL}/check-tag/${currentTagId}`);
+            const data = await response.json();
+
+            if (data.status === 'UNREGISTERED') {
+                setView('unregistered');
+            } else if (data.status === 'REGISTERED') {
+                setView('registered');
+            } else {
+                alert("Invalid Tag ID. Please contact support.");
+            }
+        } catch (error) {
+            console.error("System Offline:", error);
+            alert("Connection to KeyHeist Mainframe failed.");
+        }
+    });
+
+    // --- VIEW CONTROLLER ---
+    function setView(state) {
+        document.querySelectorAll('.card').forEach(el => {
+            el.classList.remove('active');
+            el.style.display = 'none';
+        });
+        
+        const selected = document.getElementById(`view-${state}`);
+        if (selected) {
+            void selected.offsetWidth; // Force Reflow
+            selected.style.display = 'block';
+            requestAnimationFrame(() => selected.classList.add('active'));
+        }
+    }
+
+    // --- ACTION: REGISTER TAG ---
+    async function handleRegister(event) {
+        event.preventDefault(); // Stop page reload
+        
+        // Collect Form Data
+        const formData = {
+            qr_id: currentTagId,
+            name: document.getElementById('reg-name').value,
+            email: document.getElementById('reg-email').value,
+            pin: document.getElementById('reg-pin').value
+        };
+
+        // Send to Server
+        const res = await fetch(`${API_URL}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await res.json();
+        if (result.success) {
+            alert("Asset Secured. Protocol Active.");
+            location.reload(); // Refresh to show the "Registered" view
+        } else {
+            alert("Registration Failed: " + result.error);
+        }
+    }
+
+    // --- ACTION: ALERT OWNER ---
+async function handleAlert(event) {
+    event.preventDefault();
+    
+    // 1. Grab the values using the new IDs we just added
+    const contactInput = document.getElementById('find-contact');
+    const msgInput = document.getElementById('find-msg');
+
+    const formData = {
+        qr_id: currentTagId,
+        finder_contact: contactInput.value,
+        finder_msg: msgInput.value
+    };
+
+    try {
+        // 2. Send to the REAL server
+        const res = await fetch('http://localhost:3000/api/alert-owner', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await res.json();
+        if (result.success) {
+            alert("Owner Successfully Notified!"); // Real success message
+        } else {
+            alert("Error: " + result.error);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Server connection failed.");
+    }
+}
+</script>
+</body>
+</html>
